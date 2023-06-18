@@ -36,8 +36,8 @@ fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojso
 
       // Create popup content
       var popupContent = "<b>Magnitude:</b> " + magnitude + "<br>" +
+        "<b>Location:</b> " + latitude + ", " + longitude + "<br>" +
         "<b>Depth:</b> " + depth + " km";
-
       marker.bindPopup(popupContent);
     });
   });
@@ -45,8 +45,8 @@ fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojso
 
 // Calculate marker color based on depth
 function getColor(depth) {
-  var colors = ['#00ff00', '#ffff00', '#ffa500', '#ff7f00', '#ff4500', '#ff0000']; // Green, Yellow, Orange, Red, Dark Red
-  var depthRanges = [10, 30, 50, 70, 90]; // Depth ranges for color gradient
+  var colors = ['#00ff00', '#ffff00', '#ffa500', '#ff7f00', '#ff4500', '#ff0000']; 
+  var depthRanges = [10, 30, 50, 70, 90]; 
 
   for (var i = 0; i < depthRanges.length; i++) {
     if (depth <= depthRanges[i]) {
@@ -56,17 +56,32 @@ function getColor(depth) {
 
   return colors[colors.length - 1]; 
 }
-// Create legend
-var legend = L.control({ position: 'bottomright' });
+
+// Create the legend control
+var legend = L.control({ position: "bottomright" });
 
 legend.onAdd = function (map) {
-  
+  var div = L.DomUtil.create("div", "legend");
+  var depthRanges = [0, 10, 30, 50, 70, 90];
+  var colors = ['#00ff00', '#ffff00', '#ffa500', '#ff7f00', '#ff4500', '#ff0000'];
+
+  for (var i = 0; i < depthRanges.length; i++) {
+    var depthLabel;
+    if (i === 0) {
+      depthLabel = "&lt;" + depthRanges[i + 1];
+    } else if (i === depthRanges.length - 1) {
+      depthLabel = depthRanges[i] + "+";
+    } else {
+      depthLabel = depthRanges[i] + " - " + depthRanges[i + 1];
+    }
+    var color = colors[i];
+
+    div.innerHTML +=
+      '<i style="background:' + color + '"></i> ' +
+      '<span>' + depthLabel + '</span><br>';
+  }
 
   return div;
 };
 
 legend.addTo(myMap);
-
-
-
-
