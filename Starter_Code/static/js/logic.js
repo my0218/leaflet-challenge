@@ -61,7 +61,7 @@ var legend = L.control({ position: "bottomright" });
 legend.onAdd = function (map) {
   var div = L.DomUtil.create("div", "legend");
   var depthRanges = [0, 10, 30, 50, 70, 90];
-  var colors = ['#00ff00', '#ffff00', '#ffa500', '#ff7f00', '#ff4500', '#ff0000'];
+  var colors = ["#00ff00", "#ffff00", "#ffa500", "#ff7f00", "#ff4500", "#ff0000"];
 
   for (var i = 0; i < depthRanges.length; i++) {
     var depthLabel;
@@ -76,7 +76,7 @@ legend.onAdd = function (map) {
 
     div.innerHTML +=
       '<i style="background:' + color + '"></i> ' +
-      '<span>' + depthLabel + '</span><br>';
+       depthLabel + '<br>';
   }
 
   return div;
